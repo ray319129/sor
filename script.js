@@ -6,23 +6,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const buttonsContainer = document.getElementById('buttons-container');
     
     let blueButtonClickCount = 0;
+    let pinkButtonScale = 1; // 記錄粉色按鈕的當前縮放比例
     const blueButtonTexts = [
         "我才不要",
         "對不起麻 我知道錯了",
         "帶你去吃韓式料理",
         "給我個台階麻寶寶",
-        "給我個台階麻寶寶 拜託拜託拜託"
+        "拜託拜託拜託"
     ];
     
     // 藍色按鈕點擊事件
     blueButton.addEventListener('click', function() {
         blueButtonClickCount++;
         
-        // 粉色按鈕放大動畫
-        pinkButton.classList.add('grow');
-        setTimeout(() => {
-            pinkButton.classList.remove('grow');
-        }, 500);
+        // 粉色按鈕持續變大
+        pinkButtonScale += 0.1; // 每次增加10%的大小
+        pinkButton.style.transform = `scale(${pinkButtonScale})`;
         
         // 更新藍色按鈕文字
         if (blueButtonClickCount < blueButtonTexts.length) {
@@ -64,11 +63,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // 添加按鈕懸停音效（可選）
     function addButtonHoverEffect(button) {
         button.addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.05)';
+            // 只有藍色按鈕在懸停時變大，粉色按鈕保持當前大小
+            if (this === blueButton) {
+                this.style.transform = 'scale(1.05)';
+            }
         });
         
         button.addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1)';
+            // 只有藍色按鈕恢復原大小，粉色按鈕保持當前大小
+            if (this === blueButton) {
+                this.style.transform = 'scale(1)';
+            }
         });
     }
     
